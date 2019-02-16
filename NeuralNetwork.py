@@ -16,13 +16,13 @@ class NeuralNetwork:
         for i in np.arange(self.totalNodes):
             self.biases[i] = 0.0
             for j in np.arange(self.totalNodes):
-                self.weights[i][j] = np.random.randn(layers[i]) * np.sqrt(1 / layers[i])
+                self.weights[i][j] = np.random.randn(self.layers[i]) * np.sqrt(1 / self.layers[i])
 
     ##Activates the network with the current input values using activation function tanh(x)
     def updateValues(self):
-        i = layers[0]
-        for l in np.arange(1, layers.size):
-            for n in np.arange(layers[l]):
+        i = self.layers[0]
+        for l in np.arange(1, self.layers.size):
+            for n in np.arange(self.layers[l]):
                self. values[i] = 0.0
                 j = i - self.layers[l-1]
                 for p in np.arange(self.layers[l-1]):
