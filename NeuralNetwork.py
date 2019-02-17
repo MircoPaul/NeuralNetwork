@@ -5,13 +5,14 @@ from numpy.core.multiarray import ndarray
 
 class NeuralNetwork:
 
-    def __init__(self, layers):
+    def __init__(self, layers, learningRate = 0.2):
         self.layers = layers    ##Array storing number of i-th layer at i-th index
         self.layerPrefixSums = np.ndarray(shape=self.layers.size)    ##Array storing sum of elements 0 through i at i-th position
         self.totalNodes = np.sum(self.layers)
         self.values = np.ndarray(shape=self.totalNodes)
         self.biases = np.ndarray(shape=self.totalNodes)
         self.weights = np.ndarray(shape=(self.totalNodes, self.totalNodes))
+        self.learningRate = learningRate
 
     ##Sets weights to random values and biases to 0.0
     def initialize(self):
