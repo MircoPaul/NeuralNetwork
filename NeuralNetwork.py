@@ -1,17 +1,17 @@
 ##Multilayer-Perceptron implementation
 import numpy as np
-from numpy.core.multiarray import ndarray
 
 
 class NeuralNetwork:
 
+    ##Constructor
     def __init__(self, layers, learningRate = 0.2):
         self.layers = layers    ##Array storing number of i-th layer at i-th index
-        self.layerPrefixSums = np.ndarray(shape=self.layers.size)    ##Array storing sum of elements 0 through i at i-th position
+        self.layerPrefixSums = np.empty(shape=self.layers.size)    ##Array storing sum of elements 0 through i at i-th position
         self.totalNodes = np.sum(self.layers)
-        self.values = np.ndarray(shape=self.totalNodes)
-        self.biases = np.ndarray(shape=self.totalNodes)
-        self.weights = np.ndarray(shape=(self.totalNodes, self.totalNodes))
+        self.values = np.zeros(shape=self.totalNodes)
+        self.biases = np.empty(shape=self.totalNodes)
+        self.weights = np.empty(shape=(self.totalNodes, self.totalNodes))
         self.learningRate = learningRate
 
     ##Sets weights to random values and biases to 0.0
@@ -32,15 +32,19 @@ class NeuralNetwork:
     ##Activates the network with the current input values using activation function tanh(x)
     def updateValues(self):
         i = self.layers[0]
+        j0 = 0
         for l in np.arange(1, self.layers.size):
             for n in np.arange(self.layers[l]):
-                self. values[i] = 0.0
-                j = i - self.layers[l-1]
+                self.values[i] = 0.0
+                j = j0
                 for p in np.arange(self.layers[l-1]):
                     self.values[i] += self.values[j] * self.weights[j, i]
+                    j += 1
                 self.values[i] += self.biases[i]
-            self.values[i] = np.tanh(self.values[i])
-            i += 1
+                self.values[i] = np.tanh(self.values[i])
+                i += 1    
+            j0 = self.layers[l - 1]
+            
 
     ##Returns the values currently stored in the output nodes
     def getOutput(self):
@@ -63,5 +67,12 @@ class NeuralNetwork:
             self.biases[i] += np.random.uniform(-maxMutationValue, maxMutationValue)
             for j in np.arange(int(self.totalNodes)):
                 self.weights[i, j] += np.random.uniform(-maxMutationValue, maxMutationValue)
+
+
+a = NeuralNetwork(np.array([4,3,2]))
+a.initialize()
+a.setInput(np.array([0.3, 1.0, -2.0, 0.32]))
+a.updateValues()
+a.getOutput()
 
 
