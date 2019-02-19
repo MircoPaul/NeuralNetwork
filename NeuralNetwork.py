@@ -1,5 +1,6 @@
 ##Multilayer-Perceptron implementation
 import numpy as np
+import copy
 
 
 class NeuralNetwork:
@@ -56,10 +57,7 @@ class NeuralNetwork:
 
     ##Returns a copy of this object (with the same weights and biases, values are not copied)
     def clone(self):
-        copy = NeuralNetwork(self.layers)
-        copy.weights = np.array(self.weights)
-        copy.biases = np.array(self.biases)
-        return copy
+        return copy.deepcopy(self)
 
     ##Mutates the weights and the biases of this network by a random value between - maxMutationValue and maxMutationValue
     def mutate(self, maxMutationValue):
